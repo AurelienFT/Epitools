@@ -1,0 +1,8 @@
+type Query {
+  getUserInfos(userID: String): User
+}
+
+type User {
+  id: ID!
+  email: String!
+}
