@@ -2,7 +2,16 @@ type Query {
   getUserInfos(userID: String): User
 }
 
+type Mutation {
+  createUser(name: String, email: String, password: String, googleID: String): AuthPayload!
+}
+
 type User {
   id: ID!
   email: String!
+}
+
+type AuthPayload {
+  token: String!
+  user: User!
 }

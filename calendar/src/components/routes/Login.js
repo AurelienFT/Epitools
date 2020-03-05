@@ -4,7 +4,6 @@ import { GoogleLogin } from 'react-google-login';
 function responseGoogle(response) {
   console.log(response)
 }
-
 class Login extends React.Component {
   render() {
     return (

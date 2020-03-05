@@ -1,4 +1,12 @@
 type User {
   id: ID! @id
   email: String @unique
+  name: String
+  password: String
+  authService: AuthService
+  googleID: String
+}
+
+enum AuthService {
+  GOOGLE
 }
