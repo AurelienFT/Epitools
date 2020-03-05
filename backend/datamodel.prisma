@@ -4,9 +4,9 @@ type User {
   name: String
   password: String
   authService: AuthService
-  googleID: String
+  microsoftID: String
 }
 
 enum AuthService {
-  GOOGLE
+  MICROSOFT
 }

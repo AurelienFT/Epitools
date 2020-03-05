@@ -1,22 +1,15 @@
 import React from 'react'
-import { GoogleLogin } from 'react-google-login';
+import MicrosoftLogin from "react-microsoft-login";
 
-function responseGoogle(response) {
-  console.log(response)
+function authHandler(err, data) {
+  console.log(data)
 }
 class Login extends React.Component {
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <GoogleLogin
-            clientId={process.env.REACT_APP_CLIENT_ID}
-            buttonText="Login"
-            onSuccess={responseGoogle}
-            onFailure={responseGoogle}
-            cookiePolicy={'single_host_origin'}
-            scope={'profile email https://www.googleapis.com/auth/calendar'}
-          />
+          <MicrosoftLogin clientId={process.env.REACT_APP_CLIENT_ID} authCallback={authHandler} />
         </header>
       </div>
     );

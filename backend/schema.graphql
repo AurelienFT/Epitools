@@ -3,7 +3,7 @@ type Query {
 }
 
 type Mutation {
-  createUser(name: String, email: String, password: String, googleID: String): AuthPayload!
+  createUser(name: String, email: String, password: String, microsoftID: String): AuthPayload!
 }
 
 type User {

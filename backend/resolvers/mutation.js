@@ -10,7 +10,7 @@ const Mutation = {
             const user = await context.prisma.createUser({
                 name: args.name,
                 email: args.email,
-                googleID: args.googleID
+                microsoftID: args.microsoftID
             });
             console.log(process.env.APP_SECRET)
             return {
