@@ -5,8 +5,7 @@ require('dotenv').config()
 
 const Mutation = {
     async createUser(root, args, context) {
-        console.log("test")
-        if (args.googleID) {
+        if (args.microsoftID) {
             const user = await context.prisma.createUser({
                 name: args.name,
                 email: args.email,
