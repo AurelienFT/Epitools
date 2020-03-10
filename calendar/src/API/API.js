@@ -1,7 +1,6 @@
 const host = process.env.REACT_APP_HOST;
 
 export async function loginUserMicrosoft(name, email, microsoftID) {
-	console.log(host)
 	let exists = await fetch(host, {
 		method: 'POST',
 		headers: {
@@ -17,8 +16,23 @@ export async function loginUserMicrosoft(name, email, microsoftID) {
 	});
 	exists = await exists.json()
 	if (exists['data']['userExists']) {
-		console.log("exists")
-		//add call to login to have the token
+		let login = await fetch(host, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				"operationName": null,
+				"variables": {},
+				"query": `query {
+					login(email: "${email}", microsoftID: "${microsoftID}") {
+						token
+					}
+				}`
+			})
+		});
+		login = await login.json()
+		return login['data']['login']['token']
 	} else {
 		let result = await fetch(host, {
 			method: 'POST',
@@ -35,6 +49,7 @@ export async function loginUserMicrosoft(name, email, microsoftID) {
 				}`
 			})
 		});
-		return await result.json()
+		result = await result.json()
+		return result['data']['createUser']['token'];
 	}
 }

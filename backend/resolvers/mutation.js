@@ -11,7 +11,6 @@ const Mutation = {
                 email: args.email,
                 microsoftID: args.microsoftID
             });
-            console.log(process.env.APP_SECRET)
             return {
                 token: jwt.sign({ userId: user.id }, process.env.APP_SECRET),
                 user: {
