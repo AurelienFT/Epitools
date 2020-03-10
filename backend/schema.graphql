@@ -1,6 +1,6 @@
 type Query {
   getUserInfos(userID: String): User
-  userExists(email: String): Boolean
+  userExists(email: String, token: String): Boolean
   login(email: String, microsoftID: String): AuthPayload!
 }
 

@@ -7,11 +7,20 @@ const Query = {
         });
     },
     async userExists(root, args, context) {
-        let result = await context.prisma.user({
-            email: args.email
-        });
-        if (result)
-            return true
+        if (args.email) {
+            let result = await context.prisma.user({
+                email: args.email
+            });
+            if (result)
+                return true
+        } else {
+            var decoded = jwt.verify(args.token, process.env.APP_SECRET);
+            let user = await context.prisma.user({
+                id: decoded.userId
+            });
+            if (user)
+                return true
+        }
         return false
     },
     async login(root, args, context) {
@@ -36,9 +45,9 @@ const Query = {
                 id: user.id,
                 email: user.email
             },
-        }   
+        }
     }
 }
 
 module.exports = { Query }
-        
+

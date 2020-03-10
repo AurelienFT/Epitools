@@ -1,6 +1,6 @@
 import React from 'react'
 import MicrosoftLogin from "react-microsoft-login";
-import { loginUserMicrosoft } from "../../API/API";
+import { loginUserMicrosoft, tokenValid } from "../../API/API";
 import cookie from 'react-cookies'
 import {
   useHistory,
@@ -8,6 +8,15 @@ import {
 
 
 class Login extends React.Component {
+
+  componentDidMount() {
+    if (cookie.load('user')) {
+      if (tokenValid(cookie.load('user'))) {
+        this.props.history.push("/home")
+      }
+    }
+  }
+
   async authHandler(err, data) {
     if (err) {
       // manage error
