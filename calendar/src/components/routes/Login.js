@@ -10,10 +10,9 @@ export default function Login() {
   let history = useHistory();
 
   useEffect(() => {
-    
+
     async function redirect() {
       if (cookie.load('user')) {
-        console.log(await tokenValid(cookie.load('user')));
         if (await tokenValid(cookie.load('user'))) {
           history.push("/home")
         }
