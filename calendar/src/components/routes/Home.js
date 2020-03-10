@@ -7,14 +7,19 @@ import '../../App.css';
 import Header from '../Header';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
-import Card from '@material-ui/core/Card';
-import CardContent from '@material-ui/core/CardContent';
 import Paper from '@material-ui/core/Paper';
 import Icon from '@material-ui/core/Icon';
 import { loadCSS } from 'fg-loadcss';
 import { green } from '@material-ui/core/colors';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
+const options = [
+  'Google Calendar',
+  'iCal'
+];
+
+const ITEM_HEIGHT = 48;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -36,7 +41,9 @@ const useStyles = makeStyles(theme => ({
 
 
 export default function Home() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const [displayName, setDisplayName] = useState(0);
+  const open = Boolean(anchorEl);
   let history = useHistory();
   useEffect(() => {
 
@@ -57,6 +64,16 @@ export default function Home() {
 
     redirect()
   });
+
+  const handleClick = event => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = event => {
+    setAnchorEl(null);
+    console.log(event.target.getAttribute("value"))
+  };
+
   const classes = useStyles();
   return (
     <div>
@@ -83,8 +100,8 @@ export default function Home() {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item xs={4} style={{alignItems: "center", textAlign: 'center'}}>
-                    <Button variant="outlined">Settings</Button>
+                    <Grid item xs={4} style={{ alignItems: "center", textAlign: 'center' }}>
+                      <Button variant="outlined">Settings</Button>
                     </Grid>
                   </Grid>
                 </Paper>
@@ -103,17 +120,41 @@ export default function Home() {
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid item xs={4} style={{alignItems: "center", textAlign: 'center'}}>
-                    <Button variant="outlined">Settings</Button>
+                    <Grid item xs={4} style={{ alignItems: "center", textAlign: 'center' }}>
+                      <Button variant="outlined">Settings</Button>
                     </Grid>
                   </Grid>
                 </Paper>
               </div>
             </Grid>
             <Grid item xs={3}>
-              <Button variant="contained" color="primary">
+              <Button
+                aria-controls="customized-menu"
+                aria-haspopup="true"
+                variant="contained"
+                color="primary"
+                onClick={handleClick}
+              >
                 Add new link
-            </Button>
+              </Button>
+              <Menu
+                id="long-menu"
+                anchorEl={anchorEl}
+                keepMounted
+                open={open}
+                PaperProps={{
+                  style: {
+                    maxHeight: ITEM_HEIGHT * 4.5,
+                    width: 200,
+                  },
+                }}
+              >
+                {options.map(option => (
+                  <MenuItem  value={option} key={option} selected={option === 'Google Calendar'} onClick={handleClose}>
+                    {option}
+                  </MenuItem>
+                ))}
+              </Menu>
             </Grid>
           </Grid>
         </div>
