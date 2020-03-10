@@ -1,5 +1,5 @@
 type Query {
-  getUserInfos(userID: String): User
+  getUserInfos(token: String): User
   userExists(email: String, token: String): Boolean
   login(email: String, microsoftID: String): AuthPayload!
 }
@@ -11,6 +11,7 @@ type Mutation {
 type User {
   id: ID!
   email: String!
+  name: String!
 }
 
 type AuthPayload {

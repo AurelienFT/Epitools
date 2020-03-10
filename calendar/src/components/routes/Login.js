@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import MicrosoftLogin from "react-microsoft-login";
 import { loginUserMicrosoft, tokenValid } from "../../API/API";
 import cookie from 'react-cookies'
@@ -6,18 +6,23 @@ import {
   useHistory,
 } from "react-router-dom";
 
+export default function Login() {
+  let history = useHistory();
 
-class Login extends React.Component {
-
-  componentDidMount() {
-    if (cookie.load('user')) {
-      if (tokenValid(cookie.load('user'))) {
-        this.props.history.push("/home")
+  useEffect(() => {
+    
+    async function redirect() {
+      if (cookie.load('user')) {
+        console.log(await tokenValid(cookie.load('user')));
+        if (await tokenValid(cookie.load('user'))) {
+          history.push("/home")
+        }
       }
     }
-  }
 
-  async authHandler(err, data) {
+    redirect();
+  });
+  async function authHandler(err, data) {
     if (err) {
       // manage error
       return;
@@ -29,19 +34,16 @@ class Login extends React.Component {
       return;
     }
     let d = new Date();
-    d.setTime(d.getTime() + (3600*60*1000));
-    cookie.save("user", result, {path: "/", expires: d});
-    this.props.history.push("/home")
+    d.setTime(d.getTime() + (3600 * 60 * 1000));
+    cookie.save("user", result, { path: "/", expires: d });
+    history.push("/home")
   }
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <MicrosoftLogin clientId={process.env.REACT_APP_CLIENT_ID} authCallback={this.authHandler.bind(this)} />
-        </header>
-      </div>
-    );
-  }
-}
 
-export default Login;
+  return (
+    <div className="App">
+      <header className="App-header">
+        <MicrosoftLogin clientId={process.env.REACT_APP_CLIENT_ID} authCallback={authHandler} />
+      </header>
+    </div>
+  );
+}

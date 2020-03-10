@@ -2,8 +2,9 @@ const jwt = require('jsonwebtoken')
 
 const Query = {
     async getUserInfos(root, args, context) {
+        var decoded = jwt.verify(args.token, process.env.APP_SECRET);
         return await context.prisma.user({
-            id: args.userID
+            id: decoded.userId
         });
     },
     async userExists(root, args, context) {
