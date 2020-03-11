@@ -61,6 +61,7 @@ const Mutation = {
         if (autoLogin == null) {
             return null;
         }
+        autoLogin = await bcrypt.hash(autoLogin, 10)
         const link = await context.prisma.createLink({
             userID: decoded.userId,
             activated: true,
