@@ -49,9 +49,6 @@ export default function Home() {
         history.push("/")
         return;
       }
-      if (displayName !== 0) {
-        return;
-      }
       if (!(await tokenValid(cookie.load('user')))) {
         history.push("/")
       }
@@ -63,11 +60,11 @@ export default function Home() {
         'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
         document.querySelector('#font-awesome-css'),
       );
-
+      //get all links from user
     }
 
     redirect()
-  });
+  }, []);
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
@@ -80,7 +77,7 @@ export default function Home() {
   const handleClose = event => {
     setAnchorEl(null);
     let value = event.target.getAttribute("value");
-    setLinksList(linksList.concat(<Link key={count} name={value}></Link>));
+    setLinksList(linksList.concat(<Link key={count} isConfig={false} name={value}></Link>));
     setCount(count + 1);
   };
 

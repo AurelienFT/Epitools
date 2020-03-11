@@ -51,6 +51,9 @@ export default function NotConfigLink(params) {
 
     const handleClickAutoLogin = async () => {
         let id = await createLink(params.name, values.AutoLogin, cookie.load('user'));
+        if (!id) {
+            return;
+        }
         params.configCallback(id);
     };
 

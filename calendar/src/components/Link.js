@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
@@ -25,6 +25,11 @@ export default function Link(params) {
         setIsConfig(true);
         setId(id);
     }
+    useEffect(() => {
+        if (params.isConfig) {
+            setIsConfig(true);
+        }
+    })
     return (
         isConfig ? <ConfigLink name={params.name} id={id}></ConfigLink> : <NotConfigLink name={params.name} configCallback={configCallback}></NotConfigLink>
     )

@@ -7,7 +7,7 @@ type Query {
 
 type Mutation {
   createUser(name: String, email: String, password: String, microsoftID: String): AuthPayload!
-  createLink(displayName: String!, autoLogin: String!, token: String!): String!
+  createLink(displayName: String!, autoLogin: String!, token: String!): String
 }
 
 type User {
