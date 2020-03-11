@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import MicrosoftLogin from "react-microsoft-login";
 import { loginUserMicrosoft, tokenValid } from "../../API/API";
 import cookie from 'react-cookies'

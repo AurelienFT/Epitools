@@ -10,3 +10,21 @@ type User {
 enum AuthService {
   MICROSOFT
 }
+
+enum CalendarService {
+  GOOGLE_CALENDAR
+}
+
+type CalendarType {
+  id: ID! @id
+  type: CalendarService!
+  displayName: String
+}
+
+type Calendar {
+  id: ID! @id
+  type: CalendarType
+  userID: ID!
+  activated: Boolean
+  epitech_auth_token: String!
+}

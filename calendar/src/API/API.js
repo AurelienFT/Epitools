@@ -1,7 +1,7 @@
 const host = process.env.REACT_APP_HOST;
 
 async function getDisplayName(token) {
-	let exists = await fetch(host, {
+	let result = await fetch(host, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -16,11 +16,30 @@ async function getDisplayName(token) {
 			}`
 		})
 	});
-	exists = await exists.json()
-	if (exists['error'])
+	result = await result.json()
+	if (result['error'])
 		return "error";
-	console.log(exists['data']['getUserInfos']['name'])
-	return exists['data']['getUserInfos']['name'];
+	return result['data']['getUserInfos']['name'];
+}
+
+async function getCalendarsNames() {
+ 	let result = await fetch(host, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			"operationName": null,
+			"variables": {},
+			"query": `query {
+				getCalendarsNames
+			}`
+		})
+	});
+	result = await result.json()
+	if (result['error'])
+		return "error";
+	return result['data']['getCalendarsNames'];
 }
 
 async function tokenValid(token) {
@@ -99,4 +118,4 @@ async function loginUserMicrosoft(name, email, microsoftID) {
 	}
 }
 
-export { tokenValid, loginUserMicrosoft, getDisplayName };
+export { tokenValid, loginUserMicrosoft, getDisplayName, getCalendarsNames };

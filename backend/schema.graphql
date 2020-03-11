@@ -2,6 +2,7 @@ type Query {
   getUserInfos(token: String): User
   userExists(email: String, token: String): Boolean
   login(email: String, microsoftID: String): AuthPayload!
+  getCalendarsNames: [String]
 }
 
 type Mutation {

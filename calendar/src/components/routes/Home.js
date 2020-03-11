@@ -2,7 +2,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import React, { useState, useEffect } from 'react';
 import cookie from 'react-cookies'
 import { useHistory } from "react-router-dom";
-import { getDisplayName, tokenValid } from "../../API/API";
+import { getDisplayName, tokenValid, getCalendarsNames } from "../../API/API";
 import '../../App.css';
 import Header from '../Header';
 import Grid from '@material-ui/core/Grid';
@@ -13,11 +13,6 @@ import { loadCSS } from 'fg-loadcss';
 import { green } from '@material-ui/core/colors';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-
-const options = [
-  'Google Calendar',
-  'iCal'
-];
 
 const ITEM_HEIGHT = 48;
 
@@ -43,6 +38,7 @@ const useStyles = makeStyles(theme => ({
 export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [displayName, setDisplayName] = useState(0);
+  const [calendarsNames, setCalendarsNames] = useState([]);
   const open = Boolean(anchorEl);
   let history = useHistory();
   useEffect(() => {
@@ -50,16 +46,23 @@ export default function Home() {
     async function redirect() {
       if (!cookie.load('user')) {
         history.push("/")
+        return;
+      }
+      if (displayName !== 0) {
+        return;
       }
       if (!(await tokenValid(cookie.load('user')))) {
         history.push("/")
       }
+      let calendarNamesTemp = await getCalendarsNames();
+      setCalendarsNames(calendarNamesTemp)
       let displayNameTemp = await getDisplayName(cookie.load('user'));
       setDisplayName(displayNameTemp);
       loadCSS(
         'https://use.fontawesome.com/releases/v5.12.0/css/all.css',
         document.querySelector('#font-awesome-css'),
       );
+
     }
 
     redirect()
@@ -67,6 +70,10 @@ export default function Home() {
 
   const handleClick = event => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleCloseMenu = event => {
+    setAnchorEl(null);
   };
 
   const handleClose = event => {
@@ -142,6 +149,7 @@ export default function Home() {
                 anchorEl={anchorEl}
                 keepMounted
                 open={open}
+                onClose={handleCloseMenu}
                 PaperProps={{
                   style: {
                     maxHeight: ITEM_HEIGHT * 4.5,
@@ -149,7 +157,7 @@ export default function Home() {
                   },
                 }}
               >
-                {options.map(option => (
+                {calendarsNames.map(option => (
                   <MenuItem  value={option} key={option} selected={option === 'Google Calendar'} onClick={handleClose}>
                     {option}
                   </MenuItem>

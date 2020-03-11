@@ -47,6 +47,15 @@ const Query = {
                 email: user.email
             },
         }
+    },
+    async getCalendarsNames(root, args, context) {
+        let calendarsNames = await context.prisma.calendarTypes({});
+        console.log(calendarsNames);
+        let payload = [];
+        calendarsNames.map(calendar => {
+            payload.push(calendar['displayName'])
+        })
+        return payload
     }
 }
 
