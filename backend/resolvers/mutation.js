@@ -32,6 +32,24 @@ const Mutation = {
                 email: user.email
             },
         }
+    },
+    async createLink(root, args, context) {
+        let calendar = await context.prisma.calendarType({
+            displayName: args.displayName
+        })
+        var decoded = jwt.verify(args.token, process.env.APP_SECRET);
+        //check if autologin ok and encrypt it
+        const link = await context.prisma.createLink({
+            userID: decoded.userId,
+            activated: true,
+            epitechAuthToken: args.autoLogin,
+            type: {
+                connect: {
+                    id: calendar.id
+                }
+            }
+        })
+        return link.id;
     }
 }
 

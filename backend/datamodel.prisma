@@ -18,13 +18,13 @@ enum CalendarService {
 type CalendarType {
   id: ID! @id
   type: CalendarService!
-  displayName: String
+  displayName: String @unique
 }
 
-type Calendar {
+type Link {
   id: ID! @id
-  type: CalendarType
+  type: CalendarType @relation(link: INLINE)
   userID: ID!
   activated: Boolean
-  epitech_auth_token: String!
+  epitechAuthToken: String!
 }

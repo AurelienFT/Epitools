@@ -2,22 +2,15 @@ import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Icon from '@material-ui/core/Icon';
-import { green } from '@material-ui/core/colors';
-import InputBase from '@material-ui/core/InputBase';
 import IconButton from '@material-ui/core/IconButton';
-import SearchIcon from '@material-ui/icons/Search';
 import SendIcon from '@material-ui/icons/Send';
-import FilledInput from '@material-ui/core/FilledInput';
 import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
-import TextField from '@material-ui/core/TextField';
-import Visibility from '@material-ui/icons/Visibility';
-import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
+import { createLink } from '../../API/API'
+import cookie from 'react-cookies'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -51,12 +44,14 @@ export default function NotConfigLink(params) {
     const [values, setValues] = useState({
         AutoLogin: '',
     });
+
     const handleChange = (event) => {
         setValues({...values, AutoLogin: event.target.value})
     }
 
-    const handleClickAutoLogin = (event) => {
-        console.log(values.AutoLogin)
+    const handleClickAutoLogin = async () => {
+        let id = await createLink(params.name, values.AutoLogin, cookie.load('user'));
+        params.configCallback(id);
     };
 
     return (

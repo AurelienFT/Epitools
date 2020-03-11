@@ -20,7 +20,12 @@ const useStyles = makeStyles(theme => ({
 export default function Link(params) {
     const classes = useStyles();
     const [isConfig, setIsConfig] = useState(false);
+    const [id, setId] = useState("");
+    const configCallback = (id) => {
+        setIsConfig(true);
+        setId(id);
+    }
     return (
-        isConfig ? <ConfigLink name={params.name}></ConfigLink> : <NotConfigLink name={params.name}></NotConfigLink>
+        isConfig ? <ConfigLink name={params.name} id={id}></ConfigLink> : <NotConfigLink name={params.name} configCallback={configCallback}></NotConfigLink>
     )
 }

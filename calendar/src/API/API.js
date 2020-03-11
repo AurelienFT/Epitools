@@ -1,5 +1,25 @@
 const host = process.env.REACT_APP_HOST;
 
+async function createLink(displayName, autoLogin, token) {
+	let result = await fetch(host, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+		},
+		body: JSON.stringify({
+			"operationName": null,
+			"variables": {},
+			"query": `mutation {
+				createLink(displayName: "${displayName}", autoLogin: "${autoLogin}", token: "${token}")
+			}`
+		})
+	});
+	result = await result.json()
+	if (result['error'])
+		return null;
+	return result['data']['createLink'];
+}
+
 async function getDisplayName(token) {
 	let result = await fetch(host, {
 		method: 'POST',
@@ -18,7 +38,7 @@ async function getDisplayName(token) {
 	});
 	result = await result.json()
 	if (result['error'])
-		return "error";
+		return null;
 	return result['data']['getUserInfos']['name'];
 }
 
@@ -38,7 +58,7 @@ async function getCalendarsNames() {
 	});
 	result = await result.json()
 	if (result['error'])
-		return "error";
+		return null;
 	return result['data']['getCalendarsNames'];
 }
 
@@ -118,4 +138,4 @@ async function loginUserMicrosoft(name, email, microsoftID) {
 	}
 }
 
-export { tokenValid, loginUserMicrosoft, getDisplayName, getCalendarsNames };
+export { tokenValid, loginUserMicrosoft, getDisplayName, getCalendarsNames, createLink };
