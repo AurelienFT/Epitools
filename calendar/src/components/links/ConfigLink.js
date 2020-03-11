@@ -29,7 +29,7 @@ export default function ConfigLink(params) {
                         </Grid>
                         <Grid item xs={6}>
                             Activated
-            </Grid>
+                        </Grid>
                     </Grid>
                 </Grid>
                 <Grid item xs={4} style={{ alignItems: "center", textAlign: 'center' }}>
