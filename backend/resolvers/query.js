@@ -50,7 +50,6 @@ const Query = {
     },
     async getCalendarsNames(root, args, context) {
         let calendarsNames = await context.prisma.calendarTypes({});
-        console.log(calendarsNames);
         let payload = [];
         calendarsNames.map(calendar => {
             payload.push(calendar['displayName'])

@@ -7,12 +7,10 @@ import '../../App.css';
 import Header from '../Header';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button';
-import Paper from '@material-ui/core/Paper';
-import Icon from '@material-ui/core/Icon';
 import { loadCSS } from 'fg-loadcss';
-import { green } from '@material-ui/core/colors';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import Link from '../Link'
 
 const ITEM_HEIGHT = 48;
 
@@ -39,8 +37,11 @@ export default function Home() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [displayName, setDisplayName] = useState(0);
   const [calendarsNames, setCalendarsNames] = useState([]);
+  const [linksList, setLinksList] = useState([]);
+  const [count, setCount] = useState(0);
   const open = Boolean(anchorEl);
   let history = useHistory();
+  const classes = useStyles();
   useEffect(() => {
 
     async function redirect() {
@@ -78,10 +79,11 @@ export default function Home() {
 
   const handleClose = event => {
     setAnchorEl(null);
-    console.log(event.target.getAttribute("value"))
+    let value = event.target.getAttribute("value");
+    setLinksList(linksList.concat(<Link key={count} name={value}></Link>));
+    setCount(count + 1);
   };
 
-  const classes = useStyles();
   return (
     <div>
       <Header displayName={displayName}></Header>
@@ -92,46 +94,7 @@ export default function Home() {
             </Grid>
             <Grid item xs={6}>
               <div className={classes.cardContainer}>
-                <Paper className={classes.paper}>
-                  <Grid container spacing={3} >
-                    <Grid item xs={4}>
-                      Google Calendar
-                      </Grid>
-                    <Grid item xs={4}>
-                      <Grid container spacing={3} >
-                        <Grid item xs={2}>
-                          <Icon className="far fa-check-circle" style={{ color: green[500] }} />
-                        </Grid>
-                        <Grid item xs={6}>
-                          Activated
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={4} style={{ alignItems: "center", textAlign: 'center' }}>
-                      <Button variant="outlined">Settings</Button>
-                    </Grid>
-                  </Grid>
-                </Paper>
-                <Paper className={classes.paper}>
-                  <Grid container spacing={3} >
-                    <Grid item xs={4}>
-                      iCal
-                      </Grid>
-                    <Grid item xs={4}>
-                      <Grid container spacing={3} >
-                        <Grid item xs={2}>
-                          <Icon className="far fa-check-circle" style={{ color: green[500] }} />
-                        </Grid>
-                        <Grid item xs={10}>
-                          Activated
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                    <Grid item xs={4} style={{ alignItems: "center", textAlign: 'center' }}>
-                      <Button variant="outlined">Settings</Button>
-                    </Grid>
-                  </Grid>
-                </Paper>
+                {linksList}
               </div>
             </Grid>
             <Grid item xs={3}>
