@@ -2,3 +2,5 @@
 */package-lock.json
 */.env
 backend/generated/*
+calendar/test.js
+google.json
